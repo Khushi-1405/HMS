@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <!-- Link to Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #f4f4f9;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        h1 {
+            color: #e50914;
+            font-size: 3rem;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #bbb;
+            font-size: 1.8rem;
+        }
+
+        .sp_links {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+            padding: 10px 40px;
+            /* Top-bottom: 10px, Left-right: 40px */
+            background-color: #121212;
+            /* match your black background */
+
+        }
+
+        .sp_links a {
+            color: #8A2BE2;
+            /* or any aesthetic color */
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .sp_links a:hover {
+            text-decoration: underline;
+        }
+
+
+
+        .nav_menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #121212;
+            /* match your dark theme */
+            padding: 12px 40px;
+            border-top: 2px solid #e60000;
+            /* optional red line like above */
+        }
+
+        .nav_menu span,
+        .nav_menu a {
+            color: #8A2BE2;
+            /* violet-ish */
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .nav_menu a:first-child {
+            margin-left: 0;
+        }
+
+
+
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #181818;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input {
+            background-color: #333;
+            color: #fff;
+        }
+
+
+        .btn {
+            background-color: #e63946;
+            /* red */
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+
+        button {
+            background-color: #e50914;
+            color: #fff;
+            font-weight: bold;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #b20710;
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #444;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #333;
+            color: #f4f4f9;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+
+        .action-buttons button {
+            width: auto;
+            padding: 5px 15px;
+            margin-right: 5px;
+        }
+
+        .animation-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .lottie-animation {
+            width: 150px;
+            height: 150px;
+            margin: auto;
+        }
+
+
+
+
+        #chat-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background: #1f1f1f;
+            border-radius: 10px;
+            color: white;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+        }
+
+        #chat-window {
+            padding: 10px;
+        }
+
+        #chat-log {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        #chat-input {
+            width: 70%;
+        }
+
+
+
+        #chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .settings-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+        }
+
+        #settings-dropdown {
+            display: none;
+            position: absolute;
+            background: #333;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .settings-menu:hover #settings-dropdown {
+            display: block;
+        }
+    </style>
+
+    <script>
+        document.getElementById('chatbot-btn').addEventListener('click', function () {
+            window.open('https://mychatbot-zeta.vercel.app/', '_blank'); // Replace with your chatbot link
+        });
+    </script>
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Header with settings -->
+    <header class="flex justify-between items-center p-4 bg-red-700 text-white shadow-md">
+        <h1 class="animate__animated animate__bounceInDown">Smart Hospital Portal</h1>
+        <div class="relative">
+            <button id="settingsToggle" class="text-white text-2xl font-bold">⋮</button>
+            <div class="dropdown-content">
+                <a href="toggle.html">Toggle Dark/Light Mode</a>
+                <a href="accounts.html">Account Settings</a>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="sp_links">
+        <a href="record2.html" class="view-link">🔍 View All Medical Records</a>
+        <a href="https://mychatbot-zeta.vercel.app/" class="view-link">🔍 AI ASSISTANCE</a>
+    </div>
+
+
+    <!-- Navigation Bar -->
+    <div class="nav_menu">
+        <a href="#welcome" class="hover:text-red-400">Welcome</a>
+        <a href="#login" class="hover:text-red-400">Login</a>
+        <a href="#patientSection" class="hover:text-red-400">Register Patient</a>
+        <a href="#tableSection" class="hover:text-red-400">View Patients</a>
+
+    </div>
+
+
+    <!-- Patient Form -->
+    <div class="container animate__animated animate__fadeIn">
+        <h2>Register Patient</h2>
+        <form id="patientForm" class="grid gap-4 max-w-xl">
+            <label>
+                <span class="text-sm">Patient Name</span>
+                <input type="text" id="patientName" placeholder="Patient Name" required
+                    class="p-2 rounded bg-gray-800 text-white w-full">
+            </label>
+
+            <label>
+                <span class="text-sm">Symptoms</span>
+                <input type="text" id="symptoms" placeholder="Symptoms" required
+                    class="p-2 rounded bg-gray-800 text-white w-full">
+            </label>
+
+            <label>
+                <span class="text-sm">Appointment Date</span>
+                <input type="date" id="appointmentDate" required class="p-2 rounded bg-gray-800 text-white w-full">
+            </label>
+
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded">Add Patient</button>
+        </form>
+
+    </div>
+
+
+
+    <!-- Patient Table -->
+    <div class="container animate__animated animate__fadeIn">
+        <h2>Registered Patients</h2>
+        <table id="patientsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Symptoms</th>
+                    <th>Appointment Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+    <div id="chat-container">
+        <div id="chat-window">
+            <div id="chat-log"></div>
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button onclick="handleChat()">Send</button>
+
+            <select onchange="currentLang = this.value">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+                <option value="de">German</option>
+                <option value="ja">Japanese</option>
+            </select>
+        </div>
+    </div>
+
+
+
+
+    <div class="settings-menu">
+        <span id="settings-icon">⋮</span>
+        <div id="settings-dropdown" class="hidden">
+            <button onclick="location.href='toggle.html'">Toggle Dark/Light Mode</button>
+            <button onclick="location.href='accounts.html'">Patient Profile</button>
+            <!-- Language dropdown here too -->
+        </div>
+    </div>
+
+
+
+
+    <!-- Lottie Animation Integration -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <script>
+        const hospitalAnimation = lottie.loadAnimation({
+            container: document.getElementById('hospitalAnimation'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets9.lottiefiles.com/packages/lf20_btsmbzsf.json' // Change this URL to a relevant hospital or doctor animation
+        });
+    </script>
+
+    <!-- CRUD Functionality -->
+    <script>
+        const patientForm = document.getElementById('patientForm');
+        const patientsTable = document.getElementById('patientsTable').querySelector('tbody');
+
+        // Add a new patient and show the details on the table immediately
+        patientForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Collect form data
+            const name = document.getElementById('patientName').value;
+            const symptoms = document.getElementById('symptoms').value;
+            const appointment_date = document.getElementById('appointmentDate').value;
+
+            // Create a new row for the patient
+            const newRow = document.createElement('tr');
+            const newId = Date.now();  // Using timestamp as a temporary ID
+            newRow.id = `patient-${newId}`;
+
+            newRow.innerHTML = `
+        <td>${newId}</td>
+        <td>${name}</td>
+        <td>${symptoms}</td>
+        <td>${appointment_date}</td>
+        <td class="action-buttons">
+          <button onclick="editPatient(${newId})">Edit</button>
+          <button onclick="deletePatient(${newId})">Delete</button>
+        </td>
+      `;
+
+            // Append the new row to the table
+            patientsTable.appendChild(newRow);
+
+            // Clear the form fields
+            patientForm.reset();
+        });
+
+        // Delete a patient
+        function deletePatient(id) {
+            const confirmDelete = confirm("Are you sure you want to delete this patient?");
+            if (!confirmDelete) return;
+
+            // Remove the patient row from the table
+            document.getElementById(`patient-${id}`).remove();
+        }
+
+        // Edit functionality (just a placeholder for now)
+        function editPatient(id) {
+            alert(`Edit patient functionality for ID: ${id}`);
+        }
+    </script>
+    <script>
+        const patientForm = document.getElementById('patientForm');
+        const patientsTable = document.getElementById('patientsTable').querySelector('tbody');
+
+        // Fetch and display patients from the backend
+        async function loadPatients() {
+            const response = await fetch('http://localhost:5000/api/patients');
+            const patients = await response.json();
+            patientsTable.innerHTML = patients.map(patient => `
+        <tr id="patient-${patient.id}">
+          <td>${patient.id}</td>
+          <td>${patient.name}</td>
+          <td>${patient.symptoms}</td>
+          <td>${patient.appointment_date}</td>
+          <td class="action-buttons">
+            <button onclick="editPatient(${patient.id})">Edit</button>
+            <button onclick="deletePatient(${patient.id})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+        }
+
+        // Add a new patient
+        patientForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('patientName').value,
+                symptoms: document.getElementById('symptoms').value,
+                appointment_date: document.getElementById('appointmentDate').value,
+            };
+
+            // Send POST request to add a new patient
+            const response = await fetch('http://localhost:5000/api/patients', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const patient = await response.json();
+
+            // Add new patient to table immediately
+            const newRow = document.createElement('tr');
+            newRow.id = `patient-${patient.id}`;
+            newRow.innerHTML = `
+        <td>${patient.id}</td>
+        <td>${patient.name}</td>
+        <td>${patient.symptoms}</td>
+        <td>${patient.appointment_date}</td>
+        <td class="action-buttons">
+          <button onclick="editPatient(${patient.id})">Edit</button>
+          <button onclick="deletePatient(${patient.id})">Delete</button>
+        </td>
+      `;
+            patientsTable.appendChild(newRow);
+
+            // Clear the form
+            patientForm.reset();
+        });
+
+        // Delete a patient
+        async function deletePatient(id) {
+            const confirmDelete = confirm("Are you sure you want to delete this patient?");
+            if (!confirmDelete) return;
+
+            // Send DELETE request to remove patient
+            await fetch(`http://localhost:5000/api/patients/${id}`, {
+                method: 'DELETE',
+            });
+
+            // Remove row from the table
+            document.getElementById(`patient-${id}`).remove();
+        }
+
+        // Edit functionality
+        function editPatient(id) {
+            alert(`Edit patient functionality for ID: ${id}`);
+        }
+
+        // Load patients initially
+        loadPatients();
+
+        <!-- Example for Tidio -->
+
+        <script src="//code.tidio.co/your-script-code.js" async></script>
+
+
+
+    <script>
+
+            function handleChat() {
+  const input = document.getElementById('chat-input');
+            const userMsg = input.value;
+            document.getElementById('chat-log').innerHTML += `<div>🧑 ${userMsg}</div>`;
+  setTimeout(() => {
+                document.getElementById('chat-log').innerHTML += `<div>🤖 ${responses[currentLang]}</div>`;
+  }, 1000);
+            input.value = '';
+}
+
+
+            function toggleTheme() {
+                document.body.classList.toggle('light-mode');
+}
+
+            body.light-mode {
+                background - color: #f4f4f4;
+            color: #121212;
+}
+            .light-mode input,
+            .light-mode button {
+                background - color: #fff;
+            color: #121212;
+}
+
+    </script>
+
+</body>
+
+</html>

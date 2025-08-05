@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Record Upload</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1c1c1c;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #e63946;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    .upload-box {
+      background: #2b2b2b;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .upload-box input[type="file"] {
+      display: none;
+    }
+
+    .upload-label {
+      display: inline-block;
+      background: #e63946;
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .upload-label:hover {
+      background: #ff4d5a;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .image-card {
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 180px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .image-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .image-card p {
+      margin: 0;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      background: #444;
+      color: #ccc;
+    }
+
+    .character {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      width: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    🏥 Patient Record Section
+  </header>
+  <div class="container">
+    <div class="upload-box">
+      <label class="upload-label" for="file-upload">📤 Upload Prescription Image</label>
+      <input type="file" id="file-upload" accept="image/*" multiple>
+    </div>
+
+    <h3 style="color: #f77f7f; text-align: center;">📁 Uploaded Records (Sorted by Date)</h3>
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <img class="character"
+    src="data:image/jpeg;base64,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"
+    alt="Cartoon Character" />
+
+  <script>
+    const fileInput = document.getElementById('file-upload');
+    const gallery = document.getElementById('gallery');
+
+    const images = [];
+
+    fileInput.addEventListener('change', (e) => {
+      const files = Array.from(e.target.files);
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          images.push({ src: event.target.result, date: new Date() });
+          displayImages();
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    function displayImages() {
+      // Sort by date descending
+      images.sort((a, b) => b.date - a.date);
+      gallery.innerHTML = '';
+      images.forEach(img => {
+        const card = document.createElement('div');
+        card.className = 'image-card';
+        card.innerHTML = `<img src="${img.src}" /><p>${img.date.toLocaleString()}</p>`;
+        gallery.appendChild(card);
+      });
+    }
+  </script>
+</body>
+
+</html>

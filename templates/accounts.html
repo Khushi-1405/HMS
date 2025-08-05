@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Settings</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-actions button {
+      padding: 12px 30px;
+      font-size: 1rem;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .form-actions button:hover {
+      background-color: #388e3c;
+    }
+
+    .profile-display {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .profile-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #4caf50;
+      margin-bottom: 15px;
+    }
+
+    .profile-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .profile-box {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+      }
+
+      .profile-info {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>👤 Account Settings</h2>
+
+    <div class="form-group">
+      <label for="role">Select Role</label>
+      <select id="role">
+        <option value="Patient">Patient</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="Full Name" />
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input id="age" type="number" placeholder="Age" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input id="mobile" type="text" placeholder="Mobile Number" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" placeholder="Email" />
+      </div>
+
+      <div class="form-group">
+        <label for="emergency">Emergency Contact</label>
+        <input id="emergency" type="text" placeholder="Emergency Number" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" rows="3" placeholder="Residential Address"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Upload Profile Image</label>
+      <input id="image" type="file" accept="image/*" />
+    </div>
+
+    <div class="form-actions">
+      <button onclick="saveProfile()">Save Profile</button>
+    </div>
+
+    <div class="profile-display" id="profileDisplay" style="display:none;">
+      <h2>🧾 Profile Details</h2>
+      <img id="displayImg" class="profile-image" src="" alt="Profile Image" />
+      <div class="profile-info" id="profileInfo"></div>
+    </div>
+  </div>
+
+  <script>
+    function saveProfile() {
+      const profileDisplay = document.getElementById('profileDisplay');
+      const profileInfo = document.getElementById('profileInfo');
+      const displayImg = document.getElementById('displayImg');
+
+      const fields = [
+        ['Role', 'role'],
+        ['Name', 'name'],
+        ['Age', 'age'],
+        ['Gender', 'gender'],
+        ['Mobile Number', 'mobile'],
+        ['Email', 'email'],
+        ['Emergency Contact', 'emergency'],
+        ['Address', 'address']
+      ];
+
+      profileInfo.innerHTML = '';
+      fields.forEach(([label, id]) => {
+        const value = document.getElementById(id).value;
+        const box = document.createElement('div');
+        box.className = 'profile-box';
+        box.innerHTML = `<strong>${label}:</strong> ${value}`;
+        profileInfo.appendChild(box);
+      });
+
+      // Handle image
+      const file = document.getElementById('image').files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          displayImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        displayImg.src = '';
+      }
+
+      profileDisplay.style.display = 'block';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
